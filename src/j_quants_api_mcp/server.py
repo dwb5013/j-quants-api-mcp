@@ -481,24 +481,20 @@ def get_mkt_breakdown_range(
     return market.get_mkt_breakdown_range(start_dt=start_dt, end_dt=end_dt)
 
 
-@mcp.tool()
-def get_mkt_calendar(
-    holiday_division: str = "",
-    from_yyyymmdd: str = "",
-    to_yyyymmdd: str = "",
+@mcp.tool(name="mkt-cal")
+def mkt_cal(
+    hol_div: str = "",
+    from_: Annotated[str, Field(alias="from")] = "",
+    to_: Annotated[str, Field(alias="to")] = "",
 ) -> str:
-    """Get trading calendar with holidays (Light+ plan).
+    """Official V2 endpoint: market trading calendar.
 
     Args:
-        holiday_division: Holiday type filter (e.g. "1" for TSE holidays).
-        from_yyyymmdd: Start date (YYYYMMDD).
-        to_yyyymmdd: End date (YYYYMMDD).
+        hol_div: Holiday division filter.
+        from_: Start date (YYYYMMDD or YYYY-MM-DD).
+        to_: End date (YYYYMMDD or YYYY-MM-DD).
     """
-    return market.get_mkt_calendar(
-        holiday_division=holiday_division,
-        from_yyyymmdd=from_yyyymmdd,
-        to_yyyymmdd=to_yyyymmdd,
-    )
+    return market.mkt_cal(hol_div=hol_div, from_=from_, to_=to_)
 
 
 # ── Index ───────────────────────────────────────────────────────────────────

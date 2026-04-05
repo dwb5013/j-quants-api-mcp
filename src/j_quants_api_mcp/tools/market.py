@@ -1,6 +1,23 @@
-from j_quants_api_mcp.client import get_client
+import json
+
+from j_quants_api_mcp.client import get_client, get_raw_json
 from j_quants_api_mcp.convert import df_to_response
 from j_quants_api_mcp.errors import format_error
+
+
+def mkt_cal(hol_div: str = "", from_: str = "", to_: str = "") -> str:
+    try:
+        params = {}
+        if hol_div:
+            params["hol_div"] = hol_div
+        if from_:
+            params["from"] = from_
+        if to_:
+            params["to"] = to_
+        payload = get_raw_json("/markets/calendar", params=params or None)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "mkt-cal")
 
 
 def get_mkt_short_ratio(
