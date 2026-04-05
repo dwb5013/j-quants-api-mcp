@@ -644,14 +644,15 @@ def get_drv_bars_daily_opt_range(
     )
 
 
-@mcp.tool()
-def get_drv_bars_daily_opt_225(date_yyyymmdd: str) -> str:
-    """Get Nikkei 225 options daily bars (Standard+ plan). date_yyyymmdd is REQUIRED.
+@mcp.tool(name="drv-bars-daily-opt-225")
+def drv_bars_daily_opt_225(date: str, pagination_key: str = "") -> str:
+    """Official V2 endpoint: Nikkei 225 options daily bars.
 
     Args:
-        date_yyyymmdd: Trade date (YYYYMMDD). REQUIRED.
+        date: Trade date (YYYYMMDD or YYYY-MM-DD). REQUIRED.
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return derivatives.get_drv_bars_daily_opt_225(date_yyyymmdd=date_yyyymmdd)
+    return derivatives.drv_bars_daily_opt_225(date=date, pagination_key=pagination_key)
 
 
 @mcp.tool()
