@@ -101,6 +101,19 @@ def eq_bars_minute(
         return format_error(e, "eq-bars-minute")
 
 
+def eq_bars_daily_am(code: str = "", pagination_key: str = "") -> str:
+    try:
+        params = {}
+        if code:
+            params["code"] = code
+        if pagination_key:
+            params["pagination_key"] = pagination_key
+        payload = get_raw_json("/equities/bars/daily/am", params=params or None)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "eq-bars-daily-am")
+
+
 def get_eq_master(code: str = "", date: str = "") -> str:
     try:
         cli = get_client()

@@ -101,16 +101,15 @@ def get_eq_bars_daily_range(
     return equity.get_eq_bars_daily_range(start_dt=start_dt, end_dt=end_dt)
 
 
-@mcp.tool()
-def get_eq_bars_daily_am(code: str = "") -> str:
-    """Get morning session stock prices (Premium plan). Data available until 6:00 AM next day only.
-    For historical data, use get_eq_bars_daily instead. Response fields use MO/MH/ML/MC naming.
-    Returns null for stocks with no morning session trades.
+@mcp.tool(name="eq-bars-daily-am")
+def eq_bars_daily_am(code: str = "", pagination_key: str = "") -> str:
+    """Official V2 endpoint: morning-session stock price bars.
 
     Args:
         code: Stock code (e.g. "72030"). Empty for all.
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return equity.get_eq_bars_daily_am(code=code)
+    return equity.eq_bars_daily_am(code=code, pagination_key=pagination_key)
 
 
 @mcp.tool(name="eq-bars-minute")
