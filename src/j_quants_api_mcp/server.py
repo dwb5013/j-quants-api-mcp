@@ -269,27 +269,29 @@ def get_fin_details_range(
     return financial.get_fin_details_range(start_dt=start_dt, end_dt=end_dt)
 
 
-@mcp.tool()
-def get_fin_dividend(
+@mcp.tool(name="fin-dividend")
+def fin_dividend(
     code: str = "",
-    from_yyyymmdd: str = "",
-    to_yyyymmdd: str = "",
-    date_yyyymmdd: str = "",
+    date: str = "",
+    from_: Annotated[str, Field(alias="from")] = "",
+    to_: Annotated[str, Field(alias="to")] = "",
+    pagination_key: str = "",
 ) -> str:
-    """Get dividend information (Premium plan). Requires code OR date.
-    Note: DivRate, PayDate etc. can be "-" (undecided) or "" (empty), not just numbers.
+    """Official V2 endpoint: dividend information.
 
     Args:
         code: Stock code (e.g. "72030").
-        from_yyyymmdd: Start date (YYYYMMDD).
-        to_yyyymmdd: End date (YYYYMMDD).
-        date_yyyymmdd: Specific date (YYYYMMDD).
+        date: Notice date (YYYYMMDD or YYYY-MM-DD).
+        from_: Start date (YYYYMMDD or YYYY-MM-DD).
+        to_: End date (YYYYMMDD or YYYY-MM-DD).
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return financial.get_fin_dividend(
+    return financial.fin_dividend(
         code=code,
-        from_yyyymmdd=from_yyyymmdd,
-        to_yyyymmdd=to_yyyymmdd,
-        date_yyyymmdd=date_yyyymmdd,
+        date=date,
+        from_=from_,
+        to_=to_,
+        pagination_key=pagination_key,
     )
 
 
