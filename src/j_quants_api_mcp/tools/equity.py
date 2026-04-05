@@ -43,6 +43,17 @@ def eq_bars_daily(
         return format_error(e, "eq-bars-daily")
 
 
+def eq_earnings_cal(pagination_key: str = "") -> str:
+    try:
+        params = {}
+        if pagination_key:
+            params["pagination_key"] = pagination_key
+        payload = get_raw_json("/equities/earnings-calendar", params=params or None)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "eq-earnings-cal")
+
+
 def get_eq_master(code: str = "", date: str = "") -> str:
     try:
         cli = get_client()

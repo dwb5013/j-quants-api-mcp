@@ -183,10 +183,10 @@ def get_eq_bars_15minute(
     )
 
 
-@mcp.tool()
-def get_eq_earnings_cal() -> str:
-    """Get earnings announcement calendar for listed companies."""
-    return equity.get_eq_earnings_cal()
+@mcp.tool(name="eq-earnings-cal")
+def eq_earnings_cal(pagination_key: str = "") -> str:
+    """Official V2 endpoint: earnings announcement calendar."""
+    return equity.eq_earnings_cal(pagination_key=pagination_key)
 
 
 @mcp.tool()
