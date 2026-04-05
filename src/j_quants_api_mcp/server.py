@@ -18,19 +18,16 @@ mcp = FastMCP("j-quants-api-mcp")
 # ── Classification ──────────────────────────────────────────────────────────
 
 
-@mcp.tool()
 def get_market_segments() -> str:
     """Get the list of market segment classifications (e.g. Prime, Standard, Growth)."""
     return classification.get_market_segments()
 
 
-@mcp.tool()
 def get_17_sectors() -> str:
     """Get the 17-sector industry classification list used by JPX."""
     return classification.get_17_sectors()
 
 
-@mcp.tool()
 def get_33_sectors() -> str:
     """Get the 33-sector industry classification list used by JPX."""
     return classification.get_33_sectors()
@@ -50,7 +47,6 @@ def eq_master(code: str = "", date: str = "") -> str:
     return equity.eq_master(code=code, date=date)
 
 
-@mcp.tool()
 def get_list(code: str = "", date_yyyymmdd: str = "") -> str:
     """Get listed stock info with sector classification. Both params are optional — omit both to get all.
 
@@ -87,7 +83,6 @@ def eq_bars_daily(
     )
 
 
-@mcp.tool()
 def get_eq_bars_daily_range(
     start_dt: str = "20170101",
     end_dt: str = "",
@@ -138,7 +133,6 @@ def eq_bars_minute(
     )
 
 
-@mcp.tool()
 def get_eq_bars_5minute(
     code: str = "",
     from_yyyymmdd: str = "",
@@ -161,7 +155,6 @@ def get_eq_bars_5minute(
     )
 
 
-@mcp.tool()
 def get_eq_bars_15minute(
     code: str = "",
     from_yyyymmdd: str = "",
@@ -228,7 +221,6 @@ def fin_summary(code: str = "", date: str = "", pagination_key: str = "") -> str
     return financial.fin_summary(code=code, date=date, pagination_key=pagination_key)
 
 
-@mcp.tool()
 def get_fin_summary_range(
     start_dt: str = "20080707",
     end_dt: str = "",
@@ -254,7 +246,6 @@ def fin_details(code: str = "", date: str = "", pagination_key: str = "") -> str
     return financial.fin_details(code=code, date=date, pagination_key=pagination_key)
 
 
-@mcp.tool()
 def get_fin_details_range(
     start_dt: str = "20080707",
     end_dt: str = "",
@@ -323,7 +314,6 @@ def mkt_short_ratio(
     )
 
 
-@mcp.tool()
 def get_mkt_short_ratio_range(
     start_dt: str = "20170101",
     end_dt: str = "",
@@ -366,7 +356,6 @@ def mkt_short_sale(
     )
 
 
-@mcp.tool()
 def get_mkt_short_sale_report_range(
     start_dt: str = "20131107",
     end_dt: str = "",
@@ -406,7 +395,6 @@ def mkt_margin_int(
     )
 
 
-@mcp.tool()
 def get_mkt_margin_interest_range(
     start_dt: str = "20170101",
     end_dt: str = "",
@@ -446,7 +434,6 @@ def mkt_margin_alert(
     )
 
 
-@mcp.tool()
 def get_mkt_margin_alert_range(
     start_dt: str = "20170101",
     end_dt: str = "",
@@ -486,7 +473,6 @@ def mkt_breakdown(
     )
 
 
-@mcp.tool()
 def get_mkt_breakdown_range(
     start_dt: str = "20170101",
     end_dt: str = "",
@@ -587,7 +573,6 @@ def drv_bars_daily_fut(
     )
 
 
-@mcp.tool()
 def get_drv_bars_daily_fut_range(
     start_dt: str = "20170101",
     end_dt: str = "",
@@ -636,7 +621,6 @@ def drv_bars_daily_opt(
     )
 
 
-@mcp.tool()
 def get_drv_bars_daily_opt_range(
     start_dt: str = "20170101",
     end_dt: str = "",
@@ -673,7 +657,6 @@ def drv_bars_daily_opt_225(date: str, pagination_key: str = "") -> str:
     return derivatives.drv_bars_daily_opt_225(date=date, pagination_key=pagination_key)
 
 
-@mcp.tool()
 def get_drv_bars_daily_opt_225_range(
     start_dt: str = "20170101",
     end_dt: str = "",
@@ -693,7 +676,6 @@ def get_drv_bars_daily_opt_225_range(
 # ── Bulk ────────────────────────────────────────────────────────────────────
 
 
-@mcp.tool()
 def get_bulk_list(endpoint: str) -> str:
     """List available bulk data files for an endpoint (Light+ plan). endpoint is REQUIRED.
 
@@ -704,7 +686,6 @@ def get_bulk_list(endpoint: str) -> str:
     return bulk.get_bulk_list(endpoint=endpoint)
 
 
-@mcp.tool()
 def get_bulk(key: str) -> str:
     """Get a signed download URL for a bulk data file (Light+ plan). URL valid for 5 minutes.
 
