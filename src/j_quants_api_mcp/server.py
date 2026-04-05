@@ -36,15 +36,15 @@ def get_33_sectors() -> str:
 # ── Equity ──────────────────────────────────────────────────────────────────
 
 
-@mcp.tool()
-def get_eq_master(code: str = "", date: str = "") -> str:
-    """Get listed company master data (eq-master). Both params are optional — omit both to get all.
+@mcp.tool(name="eq-master")
+def eq_master(code: str = "", date: str = "") -> str:
+    """Official V2 endpoint: listed company master data.
 
     Args:
         code: Stock code (e.g. "72030" or "7203"). 4-digit returns common shares only.
         date: Reference date (YYYYMMDD or YYYY-MM-DD).
     """
-    return equity.get_eq_master(code=code, date=date)
+    return equity.eq_master(code=code, date=date)
 
 
 @mcp.tool()

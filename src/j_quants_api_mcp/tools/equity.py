@@ -1,6 +1,21 @@
-from j_quants_api_mcp.client import get_client
+import json
+
+from j_quants_api_mcp.client import get_client, get_raw_json
 from j_quants_api_mcp.convert import df_to_response
 from j_quants_api_mcp.errors import format_error
+
+
+def eq_master(code: str = "", date: str = "") -> str:
+    try:
+        params = {}
+        if code:
+            params["code"] = code
+        if date:
+            params["date"] = date
+        payload = get_raw_json("/equities/master", params=params or None)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "eq-master")
 
 
 def get_eq_master(code: str = "", date: str = "") -> str:
