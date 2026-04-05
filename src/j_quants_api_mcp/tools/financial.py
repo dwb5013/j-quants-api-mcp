@@ -1,6 +1,23 @@
-from j_quants_api_mcp.client import get_client
+import json
+
+from j_quants_api_mcp.client import get_client, get_raw_json
 from j_quants_api_mcp.convert import df_to_response
 from j_quants_api_mcp.errors import format_error
+
+
+def fin_summary(code: str = "", date: str = "", pagination_key: str = "") -> str:
+    try:
+        params = {}
+        if code:
+            params["code"] = code
+        if date:
+            params["date"] = date
+        if pagination_key:
+            params["pagination_key"] = pagination_key
+        payload = get_raw_json("/fins/summary", params=params or None)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "fin-summary")
 
 
 def get_fin_summary(code: str = "", date_yyyymmdd: str = "") -> str:

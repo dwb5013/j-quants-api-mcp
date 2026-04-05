@@ -212,15 +212,16 @@ def get_eq_investor_types(
 # ── Financial ───────────────────────────────────────────────────────────────
 
 
-@mcp.tool()
-def get_fin_summary(code: str = "", date_yyyymmdd: str = "") -> str:
-    """Get financial statement summaries (earnings, revenue, profit). Requires code OR date.
+@mcp.tool(name="fin-summary")
+def fin_summary(code: str = "", date: str = "", pagination_key: str = "") -> str:
+    """Official V2 endpoint: financial statement summary data.
 
     Args:
         code: Stock code (e.g. "72030").
-        date_yyyymmdd: Disclosure date (YYYYMMDD or YYYY-MM-DD).
+        date: Disclosure date (YYYYMMDD or YYYY-MM-DD).
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return financial.get_fin_summary(code=code, date_yyyymmdd=date_yyyymmdd)
+    return financial.fin_summary(code=code, date=date, pagination_key=pagination_key)
 
 
 @mcp.tool()
