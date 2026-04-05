@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "j-quants-api-mcp"
+version = "0.1.0"
+description = "MCP server for executing J-Quants API calls via jquants-api-client-python"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "jquants-api-client>=2.0.0",
+    "mcp[cli]>=1.0.0",
+]
+
+[project.scripts]
+j-quants-api-mcp = "j_quants_api_mcp.cli:main"
