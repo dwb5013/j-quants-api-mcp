@@ -374,27 +374,29 @@ def get_mkt_short_sale_report_range(
     return market.get_mkt_short_sale_report_range(start_dt=start_dt, end_dt=end_dt)
 
 
-@mcp.tool()
-def get_mkt_margin_interest(
+@mcp.tool(name="mkt-margin-int")
+def mkt_margin_int(
     code: str = "",
-    from_yyyymmdd: str = "",
-    to_yyyymmdd: str = "",
-    date_yyyymmdd: str = "",
+    date: str = "",
+    from_: Annotated[str, Field(alias="from")] = "",
+    to_: Annotated[str, Field(alias="to")] = "",
+    pagination_key: str = "",
 ) -> str:
-    """Get weekly margin trading balance (Standard+ plan). Requires code OR date.
-    Note: No data for weeks with 2 or fewer business days (e.g. year-end holidays).
+    """Official V2 endpoint: weekly margin interest balances.
 
     Args:
         code: Stock code filter.
-        from_yyyymmdd: Start date (YYYYMMDD).
-        to_yyyymmdd: End date (YYYYMMDD).
-        date_yyyymmdd: Specific date (YYYYMMDD).
+        date: Publication date (YYYYMMDD or YYYY-MM-DD).
+        from_: Start date (YYYYMMDD or YYYY-MM-DD).
+        to_: End date (YYYYMMDD or YYYY-MM-DD).
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return market.get_mkt_margin_interest(
+    return market.mkt_margin_int(
         code=code,
-        from_yyyymmdd=from_yyyymmdd,
-        to_yyyymmdd=to_yyyymmdd,
-        date_yyyymmdd=date_yyyymmdd,
+        date=date,
+        from_=from_,
+        to_=to_,
+        pagination_key=pagination_key,
     )
 
 
