@@ -189,23 +189,26 @@ def eq_earnings_cal(pagination_key: str = "") -> str:
     return equity.eq_earnings_cal(pagination_key=pagination_key)
 
 
-@mcp.tool()
-def get_eq_investor_types(
+@mcp.tool(name="eq-investor-types")
+def eq_investor_types(
     section: str = "",
-    from_yyyymmdd: str = "",
-    to_yyyymmdd: str = "",
+    from_: Annotated[str, Field(alias="from")] = "",
+    to_: Annotated[str, Field(alias="to")] = "",
+    pagination_key: str = "",
 ) -> str:
-    """Get trading volume by investor type (Light+ plan).
+    """Official V2 endpoint: investor type trading data.
 
     Args:
         section: Market section filter.
-        from_yyyymmdd: Start date (YYYYMMDD).
-        to_yyyymmdd: End date (YYYYMMDD).
+        from_: Start date (YYYYMMDD or YYYY-MM-DD).
+        to_: End date (YYYYMMDD or YYYY-MM-DD).
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return equity.get_eq_investor_types(
+    return equity.eq_investor_types(
         section=section,
-        from_yyyymmdd=from_yyyymmdd,
-        to_yyyymmdd=to_yyyymmdd,
+        from_=from_,
+        to_=to_,
+        pagination_key=pagination_key,
     )
 
 

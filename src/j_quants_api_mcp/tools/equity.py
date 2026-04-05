@@ -54,6 +54,28 @@ def eq_earnings_cal(pagination_key: str = "") -> str:
         return format_error(e, "eq-earnings-cal")
 
 
+def eq_investor_types(
+    section: str = "",
+    from_: str = "",
+    to_: str = "",
+    pagination_key: str = "",
+) -> str:
+    try:
+        params = {}
+        if section:
+            params["section"] = section
+        if from_:
+            params["from"] = from_
+        if to_:
+            params["to"] = to_
+        if pagination_key:
+            params["pagination_key"] = pagination_key
+        payload = get_raw_json("/equities/investor-types", params=params or None)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "eq-investor-types")
+
+
 def get_eq_master(code: str = "", date: str = "") -> str:
     try:
         cli = get_client()
