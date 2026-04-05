@@ -70,6 +70,31 @@ def mkt_short_ratio(
         return format_error(e, "mkt-short-ratio")
 
 
+def mkt_margin_alert(
+    code: str = "",
+    date: str = "",
+    from_: str = "",
+    to_: str = "",
+    pagination_key: str = "",
+) -> str:
+    try:
+        params = {}
+        if code:
+            params["code"] = code
+        if date:
+            params["date"] = date
+        if from_:
+            params["from"] = from_
+        if to_:
+            params["to"] = to_
+        if pagination_key:
+            params["pagination_key"] = pagination_key
+        payload = get_raw_json("/markets/margin-alert", params=params or None)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "mkt-margin-alert")
+
+
 def get_mkt_short_ratio(
     sector_33_code: str = "",
     from_yyyymmdd: str = "",
