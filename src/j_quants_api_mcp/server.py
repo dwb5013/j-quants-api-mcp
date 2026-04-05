@@ -3,58 +3,15 @@ from typing import Annotated
 from mcp.server.fastmcp import FastMCP
 from pydantic import Field
 
-from j_quants_api_mcp.tools import (
-    bulk,
-    classification,
-    derivatives,
-    equity,
-    financial,
-    index,
-    market,
-)
+from j_quants_api_mcp.tools import derivatives, equity, financial, index, market
 
 mcp = FastMCP("j-quants-api-mcp")
-
-# ── Classification ──────────────────────────────────────────────────────────
-
-
-def get_market_segments() -> str:
-    """Get the list of market segment classifications (e.g. Prime, Standard, Growth)."""
-    return classification.get_market_segments()
-
-
-def get_17_sectors() -> str:
-    """Get the 17-sector industry classification list used by JPX."""
-    return classification.get_17_sectors()
-
-
-def get_33_sectors() -> str:
-    """Get the 33-sector industry classification list used by JPX."""
-    return classification.get_33_sectors()
-
-
-# ── Equity ──────────────────────────────────────────────────────────────────
 
 
 @mcp.tool(name="eq-master")
 def eq_master(code: str = "", date: str = "") -> str:
-    """Official V2 endpoint: listed company master data.
-
-    Args:
-        code: Stock code (e.g. "72030" or "7203"). 4-digit returns common shares only.
-        date: Reference date (YYYYMMDD or YYYY-MM-DD).
-    """
+    """Official V2 endpoint: listed company master data."""
     return equity.eq_master(code=code, date=date)
-
-
-def get_list(code: str = "", date_yyyymmdd: str = "") -> str:
-    """Get listed stock info with sector classification. Both params are optional — omit both to get all.
-
-    Args:
-        code: Stock code (e.g. "72030"). 4-digit returns common shares only.
-        date_yyyymmdd: Date (YYYYMMDD or YYYY-MM-DD).
-    """
-    return equity.get_list(code=code, date_yyyymmdd=date_yyyymmdd)
 
 
 @mcp.tool(name="eq-bars-daily")
@@ -65,15 +22,7 @@ def eq_bars_daily(
     to_: Annotated[str, Field(alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: daily stock price bars.
-
-    Args:
-        code: Stock code (e.g. "72030"). Empty = all stocks on the given date.
-        date: Specific date (YYYYMMDD or YYYY-MM-DD).
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: daily stock price bars."""
     return equity.eq_bars_daily(
         code=code,
         date=date,
@@ -83,27 +32,9 @@ def eq_bars_daily(
     )
 
 
-def get_eq_bars_daily_range(
-    start_dt: str = "20170101",
-    end_dt: str = "",
-) -> str:
-    """Get daily stock prices for ALL stocks in a date range. Warning: very large dataset.
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20170101.
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-    """
-    return equity.get_eq_bars_daily_range(start_dt=start_dt, end_dt=end_dt)
-
-
 @mcp.tool(name="eq-bars-daily-am")
 def eq_bars_daily_am(code: str = "", pagination_key: str = "") -> str:
-    """Official V2 endpoint: morning-session stock price bars.
-
-    Args:
-        code: Stock code (e.g. "72030"). Empty for all.
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: morning-session stock price bars."""
     return equity.eq_bars_daily_am(code=code, pagination_key=pagination_key)
 
 
@@ -115,65 +46,13 @@ def eq_bars_minute(
     to_: Annotated[str, Field(alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: 1-minute stock price bars.
-
-    Args:
-        code: Stock code (e.g. "72030").
-        date: Specific date (YYYYMMDD or YYYY-MM-DD).
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: 1-minute stock price bars."""
     return equity.eq_bars_minute(
         code=code,
         date=date,
         from_=from_,
         to_=to_,
         pagination_key=pagination_key,
-    )
-
-
-def get_eq_bars_5minute(
-    code: str = "",
-    from_yyyymmdd: str = "",
-    to_yyyymmdd: str = "",
-    date_yyyymmdd: str = "",
-) -> str:
-    """Get 5-minute OHLCV bars (requires Minute addon). Requires code OR date.
-
-    Args:
-        code: Stock code (e.g. "72030").
-        from_yyyymmdd: Start date (YYYYMMDD).
-        to_yyyymmdd: End date (YYYYMMDD).
-        date_yyyymmdd: Specific date (YYYYMMDD).
-    """
-    return equity.get_eq_bars_5minute(
-        code=code,
-        from_yyyymmdd=from_yyyymmdd,
-        to_yyyymmdd=to_yyyymmdd,
-        date_yyyymmdd=date_yyyymmdd,
-    )
-
-
-def get_eq_bars_15minute(
-    code: str = "",
-    from_yyyymmdd: str = "",
-    to_yyyymmdd: str = "",
-    date_yyyymmdd: str = "",
-) -> str:
-    """Get 15-minute OHLCV bars (requires Minute addon). Requires code OR date.
-
-    Args:
-        code: Stock code (e.g. "72030").
-        from_yyyymmdd: Start date (YYYYMMDD).
-        to_yyyymmdd: End date (YYYYMMDD).
-        date_yyyymmdd: Specific date (YYYYMMDD).
-    """
-    return equity.get_eq_bars_15minute(
-        code=code,
-        from_yyyymmdd=from_yyyymmdd,
-        to_yyyymmdd=to_yyyymmdd,
-        date_yyyymmdd=date_yyyymmdd,
     )
 
 
@@ -190,14 +69,7 @@ def eq_investor_types(
     to_: Annotated[str, Field(alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: investor type trading data.
-
-    Args:
-        section: Market section filter.
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: investor type trading data."""
     return equity.eq_investor_types(
         section=section,
         from_=from_,
@@ -206,57 +78,16 @@ def eq_investor_types(
     )
 
 
-# ── Financial ───────────────────────────────────────────────────────────────
-
-
 @mcp.tool(name="fin-summary")
 def fin_summary(code: str = "", date: str = "", pagination_key: str = "") -> str:
-    """Official V2 endpoint: financial statement summary data.
-
-    Args:
-        code: Stock code (e.g. "72030").
-        date: Disclosure date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: financial statement summary data."""
     return financial.fin_summary(code=code, date=date, pagination_key=pagination_key)
-
-
-def get_fin_summary_range(
-    start_dt: str = "20080707",
-    end_dt: str = "",
-) -> str:
-    """Get financial summaries for ALL companies in a date range. Warning: very large.
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20080707 (data available from).
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-    """
-    return financial.get_fin_summary_range(start_dt=start_dt, end_dt=end_dt)
 
 
 @mcp.tool(name="fin-details")
 def fin_details(code: str = "", date: str = "", pagination_key: str = "") -> str:
-    """Official V2 endpoint: financial statement detail data.
-
-    Args:
-        code: Stock code (e.g. "72030").
-        date: Disclosure date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: financial statement detail data."""
     return financial.fin_details(code=code, date=date, pagination_key=pagination_key)
-
-
-def get_fin_details_range(
-    start_dt: str = "20080707",
-    end_dt: str = "",
-) -> str:
-    """Get detailed financial statements for ALL companies in a date range (Premium plan).
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20080707.
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-    """
-    return financial.get_fin_details_range(start_dt=start_dt, end_dt=end_dt)
 
 
 @mcp.tool(name="fin-dividend")
@@ -267,15 +98,7 @@ def fin_dividend(
     to_: Annotated[str, Field(alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: dividend information.
-
-    Args:
-        code: Stock code (e.g. "72030").
-        date: Notice date (YYYYMMDD or YYYY-MM-DD).
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: dividend information."""
     return financial.fin_dividend(
         code=code,
         date=date,
@@ -283,9 +106,6 @@ def fin_dividend(
         to_=to_,
         pagination_key=pagination_key,
     )
-
-
-# ── Market ──────────────────────────────────────────────────────────────────
 
 
 @mcp.tool(name="mkt-short-ratio")
@@ -296,15 +116,7 @@ def mkt_short_ratio(
     to_: Annotated[str, Field(alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: short-selling ratio by sector.
-
-    Args:
-        s33: 33-sector code.
-        date: Trade date (YYYYMMDD or YYYY-MM-DD).
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: short-selling ratio by sector."""
     return market.mkt_short_ratio(
         s33=s33,
         date=date,
@@ -312,19 +124,6 @@ def mkt_short_ratio(
         to_=to_,
         pagination_key=pagination_key,
     )
-
-
-def get_mkt_short_ratio_range(
-    start_dt: str = "20170101",
-    end_dt: str = "",
-) -> str:
-    """Get short selling ratios for ALL sectors in a date range (Standard+ plan).
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20170101.
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-    """
-    return market.get_mkt_short_ratio_range(start_dt=start_dt, end_dt=end_dt)
 
 
 @mcp.tool(name="mkt-short-sale")
@@ -336,16 +135,7 @@ def mkt_short_sale(
     calc_date: str = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: short sale disclosure reports.
-
-    Args:
-        code: Stock code filter.
-        disc_date: Disclosure date (YYYYMMDD or YYYY-MM-DD).
-        disc_date_from: Disclosure start date (YYYYMMDD or YYYY-MM-DD).
-        disc_date_to: Disclosure end date (YYYYMMDD or YYYY-MM-DD).
-        calc_date: Calculation date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: short sale disclosure reports."""
     return market.mkt_short_sale(
         code=code,
         disc_date=disc_date,
@@ -356,19 +146,6 @@ def mkt_short_sale(
     )
 
 
-def get_mkt_short_sale_report_range(
-    start_dt: str = "20131107",
-    end_dt: str = "",
-) -> str:
-    """Get short sale reports for a date range (Standard+ plan).
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20131107.
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-    """
-    return market.get_mkt_short_sale_report_range(start_dt=start_dt, end_dt=end_dt)
-
-
 @mcp.tool(name="mkt-margin-int")
 def mkt_margin_int(
     code: str = "",
@@ -377,15 +154,7 @@ def mkt_margin_int(
     to_: Annotated[str, Field(alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: weekly margin interest balances.
-
-    Args:
-        code: Stock code filter.
-        date: Publication date (YYYYMMDD or YYYY-MM-DD).
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: weekly margin interest balances."""
     return market.mkt_margin_int(
         code=code,
         date=date,
@@ -393,19 +162,6 @@ def mkt_margin_int(
         to_=to_,
         pagination_key=pagination_key,
     )
-
-
-def get_mkt_margin_interest_range(
-    start_dt: str = "20170101",
-    end_dt: str = "",
-) -> str:
-    """Get weekly margin trading balance for a date range (Standard+ plan).
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20170101.
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-    """
-    return market.get_mkt_margin_interest_range(start_dt=start_dt, end_dt=end_dt)
 
 
 @mcp.tool(name="mkt-margin-alert")
@@ -416,15 +172,7 @@ def mkt_margin_alert(
     to_: Annotated[str, Field(alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: daily margin alert data.
-
-    Args:
-        code: Stock code filter.
-        date: Publication date (YYYYMMDD or YYYY-MM-DD).
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: daily margin alert data."""
     return market.mkt_margin_alert(
         code=code,
         date=date,
@@ -432,19 +180,6 @@ def mkt_margin_alert(
         to_=to_,
         pagination_key=pagination_key,
     )
-
-
-def get_mkt_margin_alert_range(
-    start_dt: str = "20170101",
-    end_dt: str = "",
-) -> str:
-    """Get daily margin trading alerts for a date range (Standard+ plan).
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20170101.
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-    """
-    return market.get_mkt_margin_alert_range(start_dt=start_dt, end_dt=end_dt)
 
 
 @mcp.tool(name="mkt-breakdown")
@@ -455,15 +190,7 @@ def mkt_breakdown(
     to_: Annotated[str, Field(alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: trading breakdown data.
-
-    Args:
-        code: Stock code filter.
-        date: Trade date (YYYYMMDD or YYYY-MM-DD).
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: trading breakdown data."""
     return market.mkt_breakdown(
         code=code,
         date=date,
@@ -473,36 +200,14 @@ def mkt_breakdown(
     )
 
 
-def get_mkt_breakdown_range(
-    start_dt: str = "20170101",
-    end_dt: str = "",
-) -> str:
-    """Get trading breakdown data for a date range (Premium plan).
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20170101.
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-    """
-    return market.get_mkt_breakdown_range(start_dt=start_dt, end_dt=end_dt)
-
-
 @mcp.tool(name="mkt-cal")
 def mkt_cal(
     hol_div: str = "",
     from_: Annotated[str, Field(alias="from")] = "",
     to_: Annotated[str, Field(alias="to")] = "",
 ) -> str:
-    """Official V2 endpoint: market trading calendar.
-
-    Args:
-        hol_div: Holiday division filter.
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-    """
+    """Official V2 endpoint: market trading calendar."""
     return market.mkt_cal(hol_div=hol_div, from_=from_, to_=to_)
-
-
-# ── Index ───────────────────────────────────────────────────────────────────
 
 
 @mcp.tool(name="idx-bars-daily")
@@ -513,15 +218,7 @@ def idx_bars_daily(
     to_: Annotated[str, Field(alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: daily index price bars.
-
-    Args:
-        code: Index code.
-        date: Specific date (YYYYMMDD or YYYY-MM-DD).
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: daily index price bars."""
     return index.idx_bars_daily(
         code=code,
         date=date,
@@ -537,17 +234,12 @@ def idx_bars_daily_topix(
     to_: Annotated[str, Field(alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: TOPIX daily price bars.
-
-    Args:
-        from_: Start date (YYYYMMDD or YYYY-MM-DD).
-        to_: End date (YYYYMMDD or YYYY-MM-DD).
-        pagination_key: Pagination cursor returned by the previous call.
-    """
-    return index.idx_bars_daily_topix(from_=from_, to_=to_, pagination_key=pagination_key)
-
-
-# ── Derivatives ─────────────────────────────────────────────────────────────
+    """Official V2 endpoint: TOPIX daily price bars."""
+    return index.idx_bars_daily_topix(
+        from_=from_,
+        to_=to_,
+        pagination_key=pagination_key,
+    )
 
 
 @mcp.tool(name="drv-bars-daily-fut")
@@ -557,41 +249,12 @@ def drv_bars_daily_fut(
     contract_flag: str = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: daily futures price bars.
-
-    Args:
-        date: Trade date (YYYYMMDD or YYYY-MM-DD). REQUIRED.
-        category: Futures category filter.
-        contract_flag: Contract type filter.
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: daily futures price bars."""
     return derivatives.drv_bars_daily_fut(
         date=date,
         category=category,
         contract_flag=contract_flag,
         pagination_key=pagination_key,
-    )
-
-
-def get_drv_bars_daily_fut_range(
-    start_dt: str = "20170101",
-    end_dt: str = "",
-    category: str = "",
-    contract_flag: str = "",
-) -> str:
-    """Get daily futures prices for a date range (Premium plan).
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20170101.
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-        category: Futures category filter.
-        contract_flag: Contract type filter.
-    """
-    return derivatives.get_drv_bars_daily_fut_range(
-        start_dt=start_dt,
-        end_dt=end_dt,
-        category=category,
-        contract_flag=contract_flag,
     )
 
 
@@ -603,15 +266,7 @@ def drv_bars_daily_opt(
     code: str = "",
     pagination_key: str = "",
 ) -> str:
-    """Official V2 endpoint: daily options price bars.
-
-    Args:
-        date: Trade date (YYYYMMDD or YYYY-MM-DD). REQUIRED.
-        category: Options category filter.
-        contract_flag: Contract type filter.
-        code: Option code filter.
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: daily options price bars."""
     return derivatives.drv_bars_daily_opt(
         date=date,
         category=category,
@@ -621,75 +276,7 @@ def drv_bars_daily_opt(
     )
 
 
-def get_drv_bars_daily_opt_range(
-    start_dt: str = "20170101",
-    end_dt: str = "",
-    category: str = "",
-    contract_flag: str = "",
-    code: str = "",
-) -> str:
-    """Get daily options prices for a date range (Premium plan).
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20170101.
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-        category: Options category filter.
-        contract_flag: Contract type filter.
-        code: Option code filter.
-    """
-    return derivatives.get_drv_bars_daily_opt_range(
-        start_dt=start_dt,
-        end_dt=end_dt,
-        category=category,
-        contract_flag=contract_flag,
-        code=code,
-    )
-
-
 @mcp.tool(name="drv-bars-daily-opt-225")
 def drv_bars_daily_opt_225(date: str, pagination_key: str = "") -> str:
-    """Official V2 endpoint: Nikkei 225 options daily bars.
-
-    Args:
-        date: Trade date (YYYYMMDD or YYYY-MM-DD). REQUIRED.
-        pagination_key: Pagination cursor returned by the previous call.
-    """
+    """Official V2 endpoint: Nikkei 225 options daily bars."""
     return derivatives.drv_bars_daily_opt_225(date=date, pagination_key=pagination_key)
-
-
-def get_drv_bars_daily_opt_225_range(
-    start_dt: str = "20170101",
-    end_dt: str = "",
-) -> str:
-    """Get Nikkei 225 options for a date range (Standard+ plan).
-
-    Args:
-        start_dt: Start date (YYYYMMDD or YYYY-MM-DD). Default: 20170101.
-        end_dt: End date (YYYYMMDD or YYYY-MM-DD). Default: today.
-    """
-    return derivatives.get_drv_bars_daily_opt_225_range(
-        start_dt=start_dt,
-        end_dt=end_dt,
-    )
-
-
-# ── Bulk ────────────────────────────────────────────────────────────────────
-
-
-def get_bulk_list(endpoint: str) -> str:
-    """List available bulk data files for an endpoint (Light+ plan). endpoint is REQUIRED.
-
-    Args:
-        endpoint: API endpoint path. REQUIRED. Examples: "/equities/master", "/equities/bars/daily",
-                  "/financials/summary", "/markets/calendar", "/markets/margin-alert".
-    """
-    return bulk.get_bulk_list(endpoint=endpoint)
-
-
-def get_bulk(key: str) -> str:
-    """Get a signed download URL for a bulk data file (Light+ plan). URL valid for 5 minutes.
-
-    Args:
-        key: File key from get_bulk_list results. REQUIRED.
-    """
-    return bulk.get_bulk(key=key)
