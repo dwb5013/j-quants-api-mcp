@@ -113,27 +113,29 @@ def get_eq_bars_daily_am(code: str = "") -> str:
     return equity.get_eq_bars_daily_am(code=code)
 
 
-@mcp.tool()
-def get_eq_bars_minute(
+@mcp.tool(name="eq-bars-minute")
+def eq_bars_minute(
     code: str = "",
-    from_yyyymmdd: str = "",
-    to_yyyymmdd: str = "",
-    date_yyyymmdd: str = "",
+    date: str = "",
+    from_: Annotated[str, Field(alias="from")] = "",
+    to_: Annotated[str, Field(alias="to")] = "",
+    pagination_key: str = "",
 ) -> str:
-    """Get 1-minute OHLCV bars (requires Minute addon). Requires code OR date.
-    Note: Minutes with zero trades are omitted. Data retention: 2 years only.
+    """Official V2 endpoint: 1-minute stock price bars.
 
     Args:
         code: Stock code (e.g. "72030").
-        from_yyyymmdd: Start date (YYYYMMDD).
-        to_yyyymmdd: End date (YYYYMMDD).
-        date_yyyymmdd: Specific date (YYYYMMDD).
+        date: Specific date (YYYYMMDD or YYYY-MM-DD).
+        from_: Start date (YYYYMMDD or YYYY-MM-DD).
+        to_: End date (YYYYMMDD or YYYY-MM-DD).
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return equity.get_eq_bars_minute(
+    return equity.eq_bars_minute(
         code=code,
-        from_yyyymmdd=from_yyyymmdd,
-        to_yyyymmdd=to_yyyymmdd,
-        date_yyyymmdd=date_yyyymmdd,
+        date=date,
+        from_=from_,
+        to_=to_,
+        pagination_key=pagination_key,
     )
 
 

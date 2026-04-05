@@ -76,6 +76,31 @@ def eq_investor_types(
         return format_error(e, "eq-investor-types")
 
 
+def eq_bars_minute(
+    code: str = "",
+    date: str = "",
+    from_: str = "",
+    to_: str = "",
+    pagination_key: str = "",
+) -> str:
+    try:
+        params = {}
+        if code:
+            params["code"] = code
+        if date:
+            params["date"] = date
+        if from_:
+            params["from"] = from_
+        if to_:
+            params["to"] = to_
+        if pagination_key:
+            params["pagination_key"] = pagination_key
+        payload = get_raw_json("/equities/bars/minute", params=params or None)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "eq-bars-minute")
+
+
 def get_eq_master(code: str = "", date: str = "") -> str:
     try:
         cli = get_client()
