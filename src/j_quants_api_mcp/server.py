@@ -297,26 +297,29 @@ def fin_dividend(
 # ── Market ──────────────────────────────────────────────────────────────────
 
 
-@mcp.tool()
-def get_mkt_short_ratio(
-    sector_33_code: str = "",
-    from_yyyymmdd: str = "",
-    to_yyyymmdd: str = "",
-    date_yyyymmdd: str = "",
+@mcp.tool(name="mkt-short-ratio")
+def mkt_short_ratio(
+    s33: str = "",
+    date: str = "",
+    from_: Annotated[str, Field(alias="from")] = "",
+    to_: Annotated[str, Field(alias="to")] = "",
+    pagination_key: str = "",
 ) -> str:
-    """Get short selling ratio by sector (Standard+ plan). Requires sector_33_code OR date.
+    """Official V2 endpoint: short-selling ratio by sector.
 
     Args:
-        sector_33_code: 33-sector code (e.g. "0050"). Use get_33_sectors to look up codes.
-        from_yyyymmdd: Start date (YYYYMMDD).
-        to_yyyymmdd: End date (YYYYMMDD).
-        date_yyyymmdd: Specific date (YYYYMMDD).
+        s33: 33-sector code.
+        date: Trade date (YYYYMMDD or YYYY-MM-DD).
+        from_: Start date (YYYYMMDD or YYYY-MM-DD).
+        to_: End date (YYYYMMDD or YYYY-MM-DD).
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return market.get_mkt_short_ratio(
-        sector_33_code=sector_33_code,
-        from_yyyymmdd=from_yyyymmdd,
-        to_yyyymmdd=to_yyyymmdd,
-        date_yyyymmdd=date_yyyymmdd,
+    return market.mkt_short_ratio(
+        s33=s33,
+        date=date,
+        from_=from_,
+        to_=to_,
+        pagination_key=pagination_key,
     )
 
 
