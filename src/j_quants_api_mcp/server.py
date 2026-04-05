@@ -1,4 +1,7 @@
+from typing import Annotated
+
 from mcp.server.fastmcp import FastMCP
+from pydantic import Field
 
 from j_quants_api_mcp.tools import (
     bulk,
@@ -58,26 +61,29 @@ def get_list(code: str = "", date_yyyymmdd: str = "") -> str:
     return equity.get_list(code=code, date_yyyymmdd=date_yyyymmdd)
 
 
-@mcp.tool()
-def get_eq_bars_daily(
+@mcp.tool(name="eq-bars-daily")
+def eq_bars_daily(
     code: str = "",
-    from_yyyymmdd: str = "",
-    to_yyyymmdd: str = "",
-    date_yyyymmdd: str = "",
+    date: str = "",
+    from_: Annotated[str, Field(alias="from")] = "",
+    to_: Annotated[str, Field(alias="to")] = "",
+    pagination_key: str = "",
 ) -> str:
-    """Get daily OHLCV stock price bars (eq-bars-daily). Requires code OR date (at least one).
+    """Official V2 endpoint: daily stock price bars.
 
     Args:
         code: Stock code (e.g. "72030"). Empty = all stocks on the given date.
-        from_yyyymmdd: Start date (YYYYMMDD). Use with to_yyyymmdd for a range.
-        to_yyyymmdd: End date (YYYYMMDD).
-        date_yyyymmdd: Specific date (YYYYMMDD). Use this OR from/to range.
+        date: Specific date (YYYYMMDD or YYYY-MM-DD).
+        from_: Start date (YYYYMMDD or YYYY-MM-DD).
+        to_: End date (YYYYMMDD or YYYY-MM-DD).
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return equity.get_eq_bars_daily(
+    return equity.eq_bars_daily(
         code=code,
-        from_yyyymmdd=from_yyyymmdd,
-        to_yyyymmdd=to_yyyymmdd,
-        date_yyyymmdd=date_yyyymmdd,
+        date=date,
+        from_=from_,
+        to_=to_,
+        pagination_key=pagination_key,
     )
 
 

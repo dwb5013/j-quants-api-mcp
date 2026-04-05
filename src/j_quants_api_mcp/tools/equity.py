@@ -18,6 +18,31 @@ def eq_master(code: str = "", date: str = "") -> str:
         return format_error(e, "eq-master")
 
 
+def eq_bars_daily(
+    code: str = "",
+    date: str = "",
+    from_: str = "",
+    to_: str = "",
+    pagination_key: str = "",
+) -> str:
+    try:
+        params = {}
+        if code:
+            params["code"] = code
+        if date:
+            params["date"] = date
+        if from_:
+            params["from"] = from_
+        if to_:
+            params["to"] = to_
+        if pagination_key:
+            params["pagination_key"] = pagination_key
+        payload = get_raw_json("/equities/bars/daily", params=params or None)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "eq-bars-daily")
+
+
 def get_eq_master(code: str = "", date: str = "") -> str:
     try:
         cli = get_client()
