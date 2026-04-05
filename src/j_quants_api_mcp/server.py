@@ -457,27 +457,29 @@ def get_mkt_margin_alert_range(
     return market.get_mkt_margin_alert_range(start_dt=start_dt, end_dt=end_dt)
 
 
-@mcp.tool()
-def get_mkt_breakdown(
+@mcp.tool(name="mkt-breakdown")
+def mkt_breakdown(
     code: str = "",
-    from_yyyymmdd: str = "",
-    to_yyyymmdd: str = "",
-    date_yyyymmdd: str = "",
+    date: str = "",
+    from_: Annotated[str, Field(alias="from")] = "",
+    to_: Annotated[str, Field(alias="to")] = "",
+    pagination_key: str = "",
 ) -> str:
-    """Get trading breakdown data by investor type (Premium plan). Requires code OR date.
-    Note: 2020/10/01 has no data due to TSE system outage.
+    """Official V2 endpoint: trading breakdown data.
 
     Args:
         code: Stock code filter.
-        from_yyyymmdd: Start date (YYYYMMDD).
-        to_yyyymmdd: End date (YYYYMMDD).
-        date_yyyymmdd: Specific date (YYYYMMDD).
+        date: Trade date (YYYYMMDD or YYYY-MM-DD).
+        from_: Start date (YYYYMMDD or YYYY-MM-DD).
+        to_: End date (YYYYMMDD or YYYY-MM-DD).
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return market.get_mkt_breakdown(
+    return market.mkt_breakdown(
         code=code,
-        from_yyyymmdd=from_yyyymmdd,
-        to_yyyymmdd=to_yyyymmdd,
-        date_yyyymmdd=date_yyyymmdd,
+        date=date,
+        from_=from_,
+        to_=to_,
+        pagination_key=pagination_key,
     )
 
 
