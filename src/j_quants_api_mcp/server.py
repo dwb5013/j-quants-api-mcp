@@ -18,8 +18,8 @@ def eq_master(code: str = "", date: str = "") -> str:
 def eq_bars_daily(
     code: str = "",
     date: str = "",
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
     """Official V2 endpoint: daily stock price bars."""
@@ -42,8 +42,8 @@ def eq_bars_daily_am(code: str = "", pagination_key: str = "") -> str:
 def eq_bars_minute(
     code: str = "",
     date: str = "",
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
     """Official V2 endpoint: 1-minute stock price bars."""
@@ -65,8 +65,8 @@ def eq_earnings_cal(pagination_key: str = "") -> str:
 @mcp.tool(name="eq-investor-types")
 def eq_investor_types(
     section: str = "",
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
     """Official V2 endpoint: investor type trading data."""
@@ -94,8 +94,8 @@ def fin_details(code: str = "", date: str = "", pagination_key: str = "") -> str
 def fin_dividend(
     code: str = "",
     date: str = "",
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
     """Official V2 endpoint: dividend information."""
@@ -112,8 +112,8 @@ def fin_dividend(
 def mkt_short_ratio(
     s33: str = "",
     date: str = "",
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
     """Official V2 endpoint: short-selling ratio by sector."""
@@ -150,8 +150,8 @@ def mkt_short_sale(
 def mkt_margin_int(
     code: str = "",
     date: str = "",
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
     """Official V2 endpoint: weekly margin interest balances."""
@@ -168,8 +168,8 @@ def mkt_margin_int(
 def mkt_margin_alert(
     code: str = "",
     date: str = "",
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
     """Official V2 endpoint: daily margin alert data."""
@@ -186,8 +186,8 @@ def mkt_margin_alert(
 def mkt_breakdown(
     code: str = "",
     date: str = "",
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
     """Official V2 endpoint: trading breakdown data."""
@@ -203,8 +203,8 @@ def mkt_breakdown(
 @mcp.tool(name="mkt-cal")
 def mkt_cal(
     hol_div: str = "",
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
 ) -> str:
     """Official V2 endpoint: market trading calendar."""
     return market.mkt_cal(hol_div=hol_div, from_=from_, to_=to_)
@@ -214,8 +214,8 @@ def mkt_cal(
 def idx_bars_daily(
     code: str = "",
     date: str = "",
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
     """Official V2 endpoint: daily index price bars."""
@@ -230,8 +230,8 @@ def idx_bars_daily(
 
 @mcp.tool(name="idx-bars-daily-topix")
 def idx_bars_daily_topix(
-    from_: Annotated[str, Field(alias="from")] = "",
-    to_: Annotated[str, Field(alias="to")] = "",
+    from_: Annotated[str, Field(validation_alias="from")] = "",
+    to_: Annotated[str, Field(validation_alias="to")] = "",
     pagination_key: str = "",
 ) -> str:
     """Official V2 endpoint: TOPIX daily price bars."""
