@@ -243,15 +243,16 @@ def get_fin_summary_range(
     return financial.get_fin_summary_range(start_dt=start_dt, end_dt=end_dt)
 
 
-@mcp.tool()
-def get_fin_details(code: str = "", date_yyyymmdd: str = "") -> str:
-    """Get detailed financial statements: balance sheet, P&L, cash flow (Premium plan). Requires code OR date.
+@mcp.tool(name="fin-details")
+def fin_details(code: str = "", date: str = "", pagination_key: str = "") -> str:
+    """Official V2 endpoint: financial statement detail data.
 
     Args:
         code: Stock code (e.g. "72030").
-        date_yyyymmdd: Disclosure date (YYYYMMDD or YYYY-MM-DD).
+        date: Disclosure date (YYYYMMDD or YYYY-MM-DD).
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return financial.get_fin_details(code=code, date_yyyymmdd=date_yyyymmdd)
+    return financial.fin_details(code=code, date=date, pagination_key=pagination_key)
 
 
 @mcp.tool()

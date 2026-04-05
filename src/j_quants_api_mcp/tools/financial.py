@@ -20,6 +20,21 @@ def fin_summary(code: str = "", date: str = "", pagination_key: str = "") -> str
         return format_error(e, "fin-summary")
 
 
+def fin_details(code: str = "", date: str = "", pagination_key: str = "") -> str:
+    try:
+        params = {}
+        if code:
+            params["code"] = code
+        if date:
+            params["date"] = date
+        if pagination_key:
+            params["pagination_key"] = pagination_key
+        payload = get_raw_json("/fins/details", params=params or None)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "fin-details")
+
+
 def get_fin_summary(code: str = "", date_yyyymmdd: str = "") -> str:
     try:
         cli = get_client()
