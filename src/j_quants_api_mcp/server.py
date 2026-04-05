@@ -607,26 +607,29 @@ def get_drv_bars_daily_fut_range(
     )
 
 
-@mcp.tool()
-def get_drv_bars_daily_opt(
-    date_yyyymmdd: str,
+@mcp.tool(name="drv-bars-daily-opt")
+def drv_bars_daily_opt(
+    date: str,
     category: str = "",
     contract_flag: str = "",
     code: str = "",
+    pagination_key: str = "",
 ) -> str:
-    """Get daily options price bars (Premium plan). date_yyyymmdd is REQUIRED.
+    """Official V2 endpoint: daily options price bars.
 
     Args:
-        date_yyyymmdd: Trade date (YYYYMMDD). REQUIRED.
+        date: Trade date (YYYYMMDD or YYYY-MM-DD). REQUIRED.
         category: Options category filter.
         contract_flag: Contract type filter.
         code: Option code filter.
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return derivatives.get_drv_bars_daily_opt(
-        date_yyyymmdd=date_yyyymmdd,
+    return derivatives.drv_bars_daily_opt(
+        date=date,
         category=category,
         contract_flag=contract_flag,
         code=code,
+        pagination_key=pagination_key,
     )
 
 
