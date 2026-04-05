@@ -16,6 +16,26 @@ def drv_bars_daily_opt_225(date: str, pagination_key: str = "") -> str:
         return format_error(e, "drv-bars-daily-opt-225")
 
 
+def drv_bars_daily_fut(
+    date: str,
+    category: str = "",
+    contract_flag: str = "",
+    pagination_key: str = "",
+) -> str:
+    try:
+        params = {"date": date}
+        if category:
+            params["category"] = category
+        if contract_flag:
+            params["contract_flag"] = contract_flag
+        if pagination_key:
+            params["pagination_key"] = pagination_key
+        payload = get_raw_json("/derivatives/bars/daily/futures", params=params)
+        return json.dumps(payload, ensure_ascii=False)
+    except Exception as e:
+        return format_error(e, "drv-bars-daily-fut")
+
+
 def get_drv_bars_daily_fut(
     date_yyyymmdd: str,
     category: str = "",

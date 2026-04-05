@@ -561,23 +561,26 @@ def idx_bars_daily_topix(
 # ── Derivatives ─────────────────────────────────────────────────────────────
 
 
-@mcp.tool()
-def get_drv_bars_daily_fut(
-    date_yyyymmdd: str,
+@mcp.tool(name="drv-bars-daily-fut")
+def drv_bars_daily_fut(
+    date: str,
     category: str = "",
     contract_flag: str = "",
+    pagination_key: str = "",
 ) -> str:
-    """Get daily futures price bars (Premium plan). date_yyyymmdd is REQUIRED.
+    """Official V2 endpoint: daily futures price bars.
 
     Args:
-        date_yyyymmdd: Trade date (YYYYMMDD). REQUIRED - no code alternative for this endpoint.
+        date: Trade date (YYYYMMDD or YYYY-MM-DD). REQUIRED.
         category: Futures category filter.
         contract_flag: Contract type filter.
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return derivatives.get_drv_bars_daily_fut(
-        date_yyyymmdd=date_yyyymmdd,
+    return derivatives.drv_bars_daily_fut(
+        date=date,
         category=category,
         contract_flag=contract_flag,
+        pagination_key=pagination_key,
     )
 
 
