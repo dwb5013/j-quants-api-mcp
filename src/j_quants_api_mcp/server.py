@@ -337,29 +337,32 @@ def get_mkt_short_ratio_range(
     return market.get_mkt_short_ratio_range(start_dt=start_dt, end_dt=end_dt)
 
 
-@mcp.tool()
-def get_mkt_short_sale_report(
+@mcp.tool(name="mkt-short-sale")
+def mkt_short_sale(
     code: str = "",
-    disclosed_date: str = "",
-    disclosed_date_from: str = "",
-    disclosed_date_to: str = "",
-    calculated_date: str = "",
+    disc_date: str = "",
+    disc_date_from: str = "",
+    disc_date_to: str = "",
+    calc_date: str = "",
+    pagination_key: str = "",
 ) -> str:
-    """Get short sale disclosure reports (Standard+ plan).
+    """Official V2 endpoint: short sale disclosure reports.
 
     Args:
         code: Stock code filter.
-        disclosed_date: Disclosure date (YYYYMMDD).
-        disclosed_date_from: Disclosure start date (YYYYMMDD).
-        disclosed_date_to: Disclosure end date (YYYYMMDD).
-        calculated_date: Calculation date (YYYYMMDD).
+        disc_date: Disclosure date (YYYYMMDD or YYYY-MM-DD).
+        disc_date_from: Disclosure start date (YYYYMMDD or YYYY-MM-DD).
+        disc_date_to: Disclosure end date (YYYYMMDD or YYYY-MM-DD).
+        calc_date: Calculation date (YYYYMMDD or YYYY-MM-DD).
+        pagination_key: Pagination cursor returned by the previous call.
     """
-    return market.get_mkt_short_sale_report(
+    return market.mkt_short_sale(
         code=code,
-        disclosed_date=disclosed_date,
-        disclosed_date_from=disclosed_date_from,
-        disclosed_date_to=disclosed_date_to,
-        calculated_date=calculated_date,
+        disc_date=disc_date,
+        disc_date_from=disc_date_from,
+        disc_date_to=disc_date_to,
+        calc_date=calc_date,
+        pagination_key=pagination_key,
     )
 
 
